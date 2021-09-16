@@ -12,7 +12,8 @@ const shipping = () => {
   const [productCategory, setCategory] = useState();
   const [customerName, setCustomerName] = useState();
   const [ productStock, onChangeProductStock ] = useInput();
-  const { products, category, customer } = useSelector((state) => state.product);
+  const { products, category } = useSelector((state) => state.product);
+  const { customer } = useSelector((state) => state.customer);
   const dispatch = useDispatch();
 
   const onClickShipping = useCallback(() => {

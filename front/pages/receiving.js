@@ -10,9 +10,10 @@ import useInput from '../hooks/useInput';
 const receiving = () => {
   const [productInfo, setProductInfo] = useState();
   const [productCategory, setCategory] = useState();
-  const [venderName, setVenderName] = useState();
+  const [customerName, setCustomerName] = useState();
   const [ productStock, onChangeProductStock ] = useInput();
-  const { products, category, vender } = useSelector((state) => state.product);
+  const { products, category } = useSelector((state) => state.product);
+  const { customer } = useSelector((state) => state.customer);
   const dispatch = useDispatch();
 
   const makeProductList = useCallback(() =>
@@ -22,7 +23,7 @@ const receiving = () => {
 
   const onClickReceiving = useCallback(() => {
     const productId = productInfo.id;
-    dispatch(newTranactionRequest({ type: '입고', productId, productCategory, venderName, productStock }));
+    dispatch(newTranactionRequest({ type: '입고', productId, productCategory, customerName, productStock }));
   })
 
   return (
@@ -50,9 +51,9 @@ const receiving = () => {
         <Col>
           <p>거래처(매입처)</p>
           <Typeahead
-            id="vender"
-            onChange={(selected) => setVenderName(...selected)}
-            options={vender}
+            id="customer"
+            onChange={(selected) => setCustomerName(...selected)}
+            options={customer}
           />
         </Col>
         <Col>

@@ -6,30 +6,30 @@ const AppLayout = ({ children }) => {
     <Container>
       <Navbar bg="light" variant="light">
         <Container>
-          <Navbar.Brand>Jinu ERP</Navbar.Brand>
+          <Link href="/"><Navbar.Brand>Jinu ERP</Navbar.Brand></Link>
           <Nav className="me-auto">
-            <Link href="/">
+            <Link href="/statistics">
               <Nav.Link>재고현황</Nav.Link>
             </Link>
-            <Link href="/">
+            <Link href="/inventoryManage">
               <Nav.Link>재고관리</Nav.Link>
             </Link>
-            <Link href="/">
+            <Link href="/receivingShippingManage">
               <Nav.Link>입출고현황</Nav.Link>
             </Link>
-            <Link href="/">
+            <Link href="/receiving">
               <Nav.Link>입고</Nav.Link>
             </Link>
-            <Link href="/">
+            <Link href="/shipping">
               <Nav.Link>출고</Nav.Link>
             </Link>
-            <Link href="/">
+            <Link href="/product">
               <Nav.Link>제품목록관리</Nav.Link>
             </Link>
-            <Link href="/">
+            <Link href="/customer">
               <Nav.Link>거래처</Nav.Link>
             </Link>
-            <Link href="/">
+            <Link href="/customerManage">
               <Nav.Link>거래처관리</Nav.Link>
             </Link>
           </Nav>

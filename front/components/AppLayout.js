@@ -3,33 +3,33 @@ import Link from 'next/link';
 
 const AppLayout = ({ children }) => {
   return(
-    <Container>
-      <Navbar bg="light" variant="light">
+    <Container >
+      <Navbar bg="light" variant="light" className="mb-5">
         <Container>
           <Link href="/"><Navbar.Brand>Jinu ERP</Navbar.Brand></Link>
           <Nav className="me-auto">
-            <Link href="/statistics">
+            <Link href="/statistics" passHref>
               <Nav.Link>재고현황</Nav.Link>
             </Link>
-            <Link href="/inventoryManage">
+            <Link href="/inventoryManage" passHref>
               <Nav.Link>재고관리</Nav.Link>
             </Link>
-            <Link href="/receivingShippingManage">
+            <Link href="/receivingShippingManage" passHref>
               <Nav.Link>입출고현황</Nav.Link>
             </Link>
-            <Link href="/receiving">
+            <Link href="/receiving" passHref>
               <Nav.Link>입고</Nav.Link>
             </Link>
-            <Link href="/shipping">
+            <Link href="/shipping" passHref>
               <Nav.Link>출고</Nav.Link>
             </Link>
-            <Link href="/product">
+            <Link href="/product" passHref>
               <Nav.Link>제품목록관리</Nav.Link>
             </Link>
-            <Link href="/customer">
+            <Link href="/customer" passHref>
               <Nav.Link>거래처</Nav.Link>
             </Link>
-            <Link href="/customerManage">
+            <Link href="/customerManage" passHref>
               <Nav.Link>거래처관리</Nav.Link>
             </Link>
           </Nav>

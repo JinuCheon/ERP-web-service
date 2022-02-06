@@ -60,6 +60,26 @@ export const initialState = {
     '상의',
     '신발',
   ],
+  vender: [
+    '네이버',
+    '카카오',
+    '라인',
+    '쿠팡',
+    '배달의민족',
+    '당근마켓',
+    '토스',
+    '직방',
+    '야놀자',
+  ],
+  customer: [
+    'A사',
+    'B사',
+    'C사',
+    'D사',
+    'E사',
+    'F사',
+    'G사',
+  ]
 }
 
 export const CREATE_NEW_PRODUCT = 'CREATE_NEW_PRODUCT';

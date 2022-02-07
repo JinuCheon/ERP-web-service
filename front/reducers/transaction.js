@@ -19,7 +19,32 @@ export const initialState = {
     selector: row => row.productStock,
     sortable: true,
   }],
-  transactionData: [],
+  transactionData: [{
+    productId: '0001',
+    productCategory: '바지',
+    venderName: '야놀자',
+    productStock: 3,
+  },{
+    productId: '0005',
+    productCategory: '신발',
+    venderName: '배달의민족',
+    productStock: 3,
+  },{
+    productId: '0003',
+    productCategory: '상의',
+    venderName: '토스',
+    productStock: 3,
+  },{
+    productId: '0002',
+    productCategory: '상의',
+    venderName: '네이버',
+    productStock: 3,
+  },{
+    productId: '0006',
+    productCategory: '바지',
+    venderName: '카카오',
+    productStock: 3,
+  }],
 }
 
 export const NEW_TRANSACTION_REQUEST = 'NEW_TRANSACTION_REQUEST';

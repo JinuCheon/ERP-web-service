@@ -11,7 +11,7 @@ const receiving = () => {
   const [productInfo, setProductInfo] = useState();
   const [productCategory, setCategory] = useState();
   const [venderName, setVenderName] = useState();
-  const [ productStock, onChangeProductStock] = useInput();
+  const [ productStock, onChangeProductStock ] = useInput();
   const { products, category, vender } = useSelector((state) => state.product);
   const dispatch = useDispatch();
 

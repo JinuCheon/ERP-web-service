@@ -4,18 +4,23 @@ import AppLayout from '../components/AppLayout';
 import DataTable from 'react-data-table-component';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { Button, Col, Modal, Row } from 'react-bootstrap';
-import { showNewProductModal } from '../reducers/product';
+import { deleteProductRequest, showNewProductModal } from '../reducers/product';
 import NewProductModal from '../components/NewProductModal';
 
 const inventoryManage = () => {
-  const { productColumns, products, category, displayNewProductModal } = useSelector((state) => state.product);
+  const { productColumns, products, category, displayNewProductModal, deleteProductLoading } = useSelector((state) => state.product);
   const [productName, setProductName] = useState();
   const [productCategory, setCategory] = useState();
+  const [selectedRows, setSelectedRows] = useState();
   const dispatch = useDispatch();
+
+  const tableSelectChange = useCallback((data) => {
+    setSelectedRows(data.selectedRows.map((v) => v.code));
+  })
 
   const makeProductList = useCallback(() => 
     products.map((v) => {
-    return {id: v.code, label: `(${v.code}) ${v.name}`};
+    return { id: v.code, label: `(${v.code}) ${v.name}` };
   }));
 
   const onClickFiltering = useCallback(() => {
@@ -24,6 +29,10 @@ const inventoryManage = () => {
 
   const onClickNewProduct = useCallback(() => {
     dispatch(showNewProductModal());
+  })
+
+  const onClickDeleteProduct = useCallback(() => {
+    dispatch(deleteProductRequest(selectedRows));
   })
 
   return(
@@ -48,9 +57,11 @@ const inventoryManage = () => {
         </Col>
       </Row>
       <Button className="mt-2 mb-5" onClick={onClickFiltering}>필터링</Button>
-      <DataTable columns={productColumns} data={products} selectableRows pagination />
-      <Button>제품 삭제</Button>
-      <Button onClick={onClickNewProduct} className="ml-5">제품 추가</Button>
+      <DataTable columns={productColumns} data={products} selectableRows pagination onSelectedRowsChange={tableSelectChange} />
+      <Button className="m-2" onClick={onClickDeleteProduct} disabled={deleteProductLoading}>
+        {deleteProductLoading ? '삭제중' : '제품 삭제'}
+      </Button>
+      <Button onClick={onClickNewProduct}>제품 추가</Button>
       {displayNewProductModal && <NewProductModal />}
     </AppLayout>
   )

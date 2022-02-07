@@ -5,7 +5,6 @@ import AppLayout from '../components/AppLayout';
 
 const Home = () => {
   const { products } = useSelector((state) => state.product);
-  console.log(products);
   return (
     <AppLayout>here is main page.</AppLayout>
   )

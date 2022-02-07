@@ -3,6 +3,7 @@ import produce from 'immer';
 export const initialState = {
   displayNewProductModal: false,
   createNewProductLoading: false,
+  deleteProductLoading: false,
   productColumns: [{
     name: '제품코드',
     selector: row => row.code,
@@ -87,6 +88,9 @@ export const CLOSE_NEW_PRODUCT_MODAL = 'CLOSE_NEW_PRODUCT_MODAL';
 export const CREATE_NEW_PRODUCT_REQUEST = 'CREATE_NEW_PRODUCT_REQUEST';
 export const CREATE_NEW_PRODUCT_FAILURE = 'CREATE_NEW_PRODUCT_FAILURE';
 export const CREATE_NEW_PRODUCT_SUCCESS = 'CREATE_NEW_PRODUCT_SUCCESS';
+export const DELETE_PRODUCT_REQUEST = 'DELETE_PRODUCT_REQUEST';
+export const DELETE_PRODUCT_FAILURE = 'DELETE_PRODUCT_FAILURE';
+export const DELETE_PRODUCT_SUCCESS = 'DELETE_PRODUCT_SUCCESS';
 
 export const showNewProductModal = () => ({
   type: SHOW_NEW_PRODUCT_MODAL,
@@ -97,6 +101,11 @@ export const closeNewProductModal = () => ({
 
 export const createNewProductRequest = (data) => ({
   type: CREATE_NEW_PRODUCT_REQUEST,
+  data,
+});
+
+export const deleteProductRequest = (data) => ({
+  type: DELETE_PRODUCT_REQUEST,
   data,
 });
 
@@ -124,7 +133,19 @@ const rootReducer = (state = initialState, action) => {
         draft.products.push(action.data);
         draft.displayNewProductModal = false;
         break;
+
+      case DELETE_PRODUCT_REQUEST:
+        draft.deleteProductLoading = true;
+        break;
       
+      case DELETE_PRODUCT_FAILURE:
+        draft.deleteProductLoading = false;
+        break;
+      
+      case DELETE_PRODUCT_SUCCESS:
+        draft.deleteProductLoading = false;
+        draft.products = draft.products.filter((v) => !action.data.includes(v.code));
+        break;
 
       default:
         break;

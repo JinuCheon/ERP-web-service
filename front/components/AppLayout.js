@@ -14,7 +14,7 @@ const AppLayout = ({ children }) => {
             <Link href="/inventoryManage" passHref>
               <Nav.Link>재고관리</Nav.Link>
             </Link>
-            <Link href="/receivingShippingManage" passHref>
+            <Link href="/transactionRecord" passHref>
               <Nav.Link>입출고기록</Nav.Link>
             </Link>
             <Link href="/receiving" passHref>
@@ -24,7 +24,7 @@ const AppLayout = ({ children }) => {
               <Nav.Link>출고</Nav.Link>
             </Link>
             <Link href="/customer" passHref>
-              <Nav.Link>거래처</Nav.Link>
+              <Nav.Link>거래처관리</Nav.Link>
             </Link>
           </Nav>
           <Nav>

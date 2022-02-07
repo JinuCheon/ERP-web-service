@@ -2,19 +2,28 @@ import React, { useState, useCallback } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import AppLayout from '../components/AppLayout';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { newTranactionRequest } from '../reducers/transaction';
+import useInput from '../hooks/useInput';
 
 
 const receiving = () => {
-  const [productName, setProductName] = useState();
+  const [productInfo, setProductInfo] = useState();
   const [productCategory, setCategory] = useState();
   const [venderName, setVenderName] = useState();
+  const [ productStock, onChangeProductStock] = useInput();
   const { products, category, vender } = useSelector((state) => state.product);
+  const dispatch = useDispatch();
 
   const makeProductList = useCallback(() =>
     products.map((v) => {
       return { id: v.code, label: `(${v.code}) ${v.name}` };
     }));
+
+  const onClickReceiving = useCallback(() => {
+    const productId = productInfo.id;
+    dispatch(newTranactionRequest({ productId, productCategory, venderName, productStock }));
+  })
 
   return (
     <AppLayout>
@@ -23,7 +32,7 @@ const receiving = () => {
           <p>제품명(코드)</p>
           <Typeahead
             id="name"
-            onChange={(selected) => setProductName(...selected)}
+            onChange={(selected) => setProductInfo(...selected)}
             options={makeProductList()}
             flip={true}
           />
@@ -48,10 +57,10 @@ const receiving = () => {
         </Col>
         <Col>
           <p>수량</p>
-          <Form.Control type="number" />
+          <Form.Control type="number" onChange={onChangeProductStock} />
         </Col>
       </Row>
-      <Button variant="primary" type="submit" className="mt-5">
+      <Button onClick={onClickReceiving} variant="primary" type="submit" className="mt-5">
         Submit
       </Button>
     </AppLayout>

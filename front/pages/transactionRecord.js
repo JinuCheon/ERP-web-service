@@ -7,8 +7,9 @@ import { Button, Col, Modal, Row } from 'react-bootstrap';
 import { deleteProductRequest, showNewProductModal } from '../reducers/product';
 import NewProductModal from '../components/NewProductModal';
 
-const inventoryManage = () => {
+const transactionRecord = () => {
   const { productColumns, products, category, displayNewProductModal, deleteProductLoading } = useSelector((state) => state.product);
+  const { transactionData, transactionColumns } = useSelector((state) => state.transaction);
   const [productName, setProductName] = useState();
   const [productCategory, setCategory] = useState();
   const [selectedRows, setSelectedRows] = useState();
@@ -57,7 +58,7 @@ const inventoryManage = () => {
         </Col>
       </Row>
       <Button className="mt-2 mb-5" onClick={onClickFiltering}>필터링</Button>
-      <DataTable columns={productColumns} data={products} selectableRows pagination onSelectedRowsChange={tableSelectChange} />
+      <DataTable columns={transactionColumns} data={transactionData} selectableRows pagination onSelectedRowsChange={tableSelectChange} />
       <Button className="m-2" onClick={onClickDeleteProduct} disabled={deleteProductLoading}>
         {deleteProductLoading ? '삭제중' : '제품 삭제'}
       </Button>
@@ -67,4 +68,4 @@ const inventoryManage = () => {
   )
 }
 
-export default inventoryManage;
+export default transactionRecord;

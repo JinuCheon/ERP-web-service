@@ -3,6 +3,10 @@ import produce from 'immer';
 export const initialState = {
   transactionLoading: false,
   transactionColumns: [{
+    name: '거래종류',
+    selector: row => row.type,
+    sortable: true,
+  },{
     name: '제품코드',
     selector: row => row.productId,
     sortable: true,
@@ -20,26 +24,31 @@ export const initialState = {
     sortable: true,
   }],
   transactionData: [{
+    type: '출고',
     productId: '0001',
     productCategory: '바지',
     venderName: '야놀자',
     productStock: 3,
   },{
+    type: '입고',
     productId: '0005',
     productCategory: '신발',
     venderName: '배달의민족',
     productStock: 3,
   },{
+    type: '출고',
     productId: '0003',
     productCategory: '상의',
     venderName: '토스',
     productStock: 3,
   },{
+    type: '입고',
     productId: '0002',
     productCategory: '상의',
     venderName: '네이버',
     productStock: 3,
   },{
+    type: '입고',
     productId: '0006',
     productCategory: '바지',
     venderName: '카카오',

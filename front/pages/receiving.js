@@ -22,7 +22,7 @@ const receiving = () => {
 
   const onClickReceiving = useCallback(() => {
     const productId = productInfo.id;
-    dispatch(newTranactionRequest({ productId, productCategory, venderName, productStock }));
+    dispatch(newTranactionRequest({ type: '입고', productId, productCategory, venderName, productStock }));
   })
 
   return (

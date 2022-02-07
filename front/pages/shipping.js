@@ -9,6 +9,7 @@ const shipping = () => {
   const [productName, setProductName] = useState();
   const [productCategory, setCategory] = useState();
   const [customerName, setCustomerName] = useState();
+  const [customerStock, stock] = useState();
   const { products, category, customer } = useSelector((state) => state.product);
 
   const makeProductList = useCallback(() =>

@@ -1,4 +1,4 @@
-const express = requrie('express');
+const express = require('express');
 const cors = require('cors');
 const db = require('./models');
 const app = express();

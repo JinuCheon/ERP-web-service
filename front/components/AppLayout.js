@@ -8,7 +8,7 @@ const AppLayout = ({ children }) => {
         <Container>
           <Link href="/"><Navbar.Brand>Jinu ERP</Navbar.Brand></Link>
           <Nav className="me-auto">
-            <Link href="/statistics" passHref>
+            <Link href="/" passHref>
               <Nav.Link>통계</Nav.Link>
             </Link>
             <Link href="/inventoryManage" passHref>

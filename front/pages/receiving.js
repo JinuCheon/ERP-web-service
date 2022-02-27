@@ -21,6 +21,11 @@ const receiving = () => {
       return { id: v.code, label: `(${v.code}) ${v.name}` };
     }));
 
+  const makeCustomerList = useCallback(() =>
+    customer.map((v) => {
+      return { id: v.id, label: `(${v.id}) ${v.companyName}` };
+    }));
+
   const onClickReceiving = useCallback(() => {
     const productId = productInfo.id;
     dispatch(newTranactionRequest({ type: '입고', productId, productCategory, customerName, productStock }));
@@ -52,8 +57,8 @@ const receiving = () => {
           <p>거래처(매입처)</p>
           <Typeahead
             id="customer"
-            onChange={(selected) => setCustomerName(...selected)}
-            options={customer}
+            onChange={(selected) => setCustomerName(selected[0].label)}
+            options={makeCustomerList()}
           />
         </Col>
         <Col>

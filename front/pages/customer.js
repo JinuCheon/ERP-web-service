@@ -4,12 +4,12 @@ import AppLayout from '../components/AppLayout';
 import DataTable from 'react-data-table-component';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
-import { deleteProductRequest, showNewProductModal } from '../reducers/product';
+import { deleteProductRequest } from '../reducers/product';
 import NewProductModal from '../components/NewProductModal';
+import { showNewCustomerModal } from '../reducers/customer';
 
 const customer = () => {
-  const { productColumns, products, category, displayNewProductModal, deleteProductLoading } = useSelector((state) => state.product);
-  const { customer } = useSelector((state) => state.customer);
+  const { customer, deleteCustomerLoading, displayNewCustomerModal } = useSelector((state) => state.customer);
   const [productName, setProductName] = useState();
   const [productCategory, setCategory] = useState();
   const [selectedRows, setSelectedRows] = useState();
@@ -54,8 +54,8 @@ const customer = () => {
     console.log(productName.id, productCategory);
   })
 
-  const onClickNewProduct = useCallback(() => {
-    dispatch(showNewProductModal());
+  const onClickNewCustomer = useCallback(() => {
+    dispatch(showNewCustomerModal());
   })
   
   const onClickDeleteProduct = useCallback(() => {
@@ -92,11 +92,11 @@ const customer = () => {
       </Row>
       <Button className="mt-2 mb-5" onClick={onClickFiltering}>필터링</Button>
       <DataTable columns={columns} data={customer} selectableRows pagination onSelectedRowsChange={tableSelectChange} />
-      <Button className="m-2" onClick={onClickDeleteProduct} disabled={deleteProductLoading}>
-        {deleteProductLoading ? '삭제중' : '제품 삭제'}
+      <Button className="m-2" onClick={onClickDeleteProduct} disabled={deleteCustomerLoading}>
+        {deleteCustomerLoading ? '삭제중' : '제품 삭제'}
       </Button>
-      <Button onClick={onClickNewProduct}>제품 추가</Button>
-      {displayNewProductModal && <NewProductModal />}
+      <Button onClick={onClickNewCustomer}>거래처 추가</Button>
+      {displayNewCustomerModal && <NewProductModal />}
     </AppLayout>
   )
 }

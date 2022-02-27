@@ -11,12 +11,12 @@ export const initialState = {
     selector: row => row.productId,
     sortable: true,
   }, {
-    name: '거래처',
-    selector: row => row.venderName,
-    sortable: true,
-  }, {
     name: '카테고리',
     selector: row => row.productCategory,
+    sortable: true,
+  }, {
+    name: '거래처',
+    selector: row => row.customerName,
     sortable: true,
   }, {
     name: '수량',
@@ -27,31 +27,31 @@ export const initialState = {
     type: '출고',
     productId: '0001',
     productCategory: '바지',
-    venderName: '야놀자',
+    customerName: '야놀자',
     productStock: 3,
   },{
     type: '입고',
     productId: '0005',
     productCategory: '신발',
-    venderName: '배달의민족',
+    customerName: '배달의민족',
     productStock: 3,
   },{
     type: '출고',
     productId: '0003',
     productCategory: '상의',
-    venderName: '토스',
+    customerName: '토스',
     productStock: 3,
   },{
     type: '입고',
     productId: '0002',
     productCategory: '상의',
-    venderName: '네이버',
+    customerName: '네이버',
     productStock: 3,
   },{
     type: '입고',
     productId: '0006',
     productCategory: '바지',
-    venderName: '카카오',
+    customerName: '카카오',
     productStock: 3,
   }],
 }

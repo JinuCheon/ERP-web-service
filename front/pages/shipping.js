@@ -22,8 +22,13 @@ const shipping = () => {
   })
 
   const makeProductList = useCallback(() =>
-    products.map((v) => {
-      return { id: v.code, label: `(${v.code}) ${v.name}` };
+      products.map((v) => {
+        return { id: v.code, label: `(${v.code}) ${v.name}` };
+    }));
+
+  const makeCustomerList = useCallback(() =>
+    customer.map((v) => {
+      return { id: v.id, label: `(${v.id}) ${v.companyName}` };
     }));
 
   return (
@@ -52,8 +57,8 @@ const shipping = () => {
           <p>거래처(매출처)</p>
           <Typeahead
             id="vender"
-            onChange={(selected) => setCustomerName(...selected)}
-            options={customer}
+            onChange={(selected) => setCustomerName(selected[0].label)}
+            options={makeCustomerList()}
           />
         </Col>
         <Col>

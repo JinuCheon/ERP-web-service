@@ -1,6 +1,7 @@
 import produce from 'immer';
 
 export const initialState = {
+  displayNewCustomerModal: false,
   createNewCustomerLoading: false,
   deleteCustomerLoading: false,
   customer: [
@@ -33,6 +34,8 @@ export const initialState = {
   ]
 }
 
+export const SHOW_NEW_CUSTOMER_MODAL = 'SHOW_NEW_CUSTOMER_MODAL';
+export const CLOSE_NEW_CUSTOMER_MODAL = 'CLOSE_NEW_CUSTOMER_MODAL';
 export const CREATE_NEW_CUSTOMER_REQUEST = 'CREATE_NEW_CUSTOMER_REQUEST';
 export const CREATE_NEW_CUSTOMER_FAILURE = 'CREATE_NEW_CUSTOMER_FAILURE';
 export const CREATE_NEW_CUSTOMER_SUCCESS = 'CREATE_NEW_CUSTOMER_SUCCESS';
@@ -45,9 +48,18 @@ export const createNewCustomerRequest = (data) => ({
   data,
 });
 
+export const showNewCustomerModal = () => ({
+  type: SHOW_NEW_CUSTOMER_MODAL,
+});
+
+export const closeNewCustomerModal = () => ({
+  type: CLOSE_NEW_CUSTOMER_MODAL,
+});
+
 const rootReducer = (state = initialState, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      
       case CREATE_NEW_CUSTOMER_REQUEST:
         draft.createNewCustomerLoading = true;
         break;
@@ -58,21 +70,27 @@ const rootReducer = (state = initialState, action) => {
       
       case CREATE_NEW_CUSTOMER_SUCCESS:
         draft.createNewCustomerLoading = false;
-        draft.products = draft.products.filter((v) => !action.data.includes(v.code));
+        draft.customer = draft.customer.filter((v) => !action.data.include(v.code));
         break;
 
-      case CREATE_NEW_CUSTOMER_REQUEST:
+      case DELETE_CUSTOMER_REQUEST:
         draft.deleteCustomerLoading = true;
         break;
       
-      case CREATE_NEW_CUSTOMER_FAILURE:
+      case DELETE_CUSTOMER_FAILURE:
         draft.deleteCustomerLoading = false;
         break;
       
-      case CREATE_NEW_CUSTOMER_SUCCESS:
+      case DELETE_CUSTOMER_SUCCESS:
         draft.deleteCustomerLoading = false;
-        draft.products = draft.products.filter((v) => !action.data.includes(v.code));
+        draft.customer = draft.customer.filter((v) => !action.data.includes(v.code));
         break;
+
+      case SHOW_NEW_CUSTOMER_MODAL:
+        draft.displayNewCustomerModal = true;
+
+      case CLOSE_NEW_CUSTOMER_MODAL:
+        draft.displayNewCustomerModal = false;
 
       default:
         break;

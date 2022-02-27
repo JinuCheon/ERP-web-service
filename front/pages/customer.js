@@ -1,14 +1,14 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AppLayout from '../components/AppLayout';
 import DataTable from 'react-data-table-component';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
-import { deleteCustomerAction, showNewCustomerModal } from '../reducers/customer';
+import { deleteCustomerAction, LOAD_CUSTOMER_REQUEST, showNewCustomerModal } from '../reducers/customer';
 import NewCustomerModal from '../components/NewCustomerModal';
 
 const customer = () => {
-  const { customer, deleteCustomerLoading, displayNewCustomerModal } = useSelector((state) => state.customer);
+  const { customer, deleteCustomerLoading, displayNewCustomerModal, createNewCustomerDone, deleteCustomerDone } = useSelector((state) => state.customer);
   const [selectedRows, setSelectedRows] = useState();
   const [sellerCheckboxChecked, setSellerCheckboxChecked] = useState(true);
   const [buyerCheckboxChecked, setBuyerCheckboxChecked] = useState(true);
@@ -16,10 +16,17 @@ const customer = () => {
 
   const onChangeSellerCheckbox = useCallback(() => {
     setSellerCheckboxChecked(!sellerCheckboxChecked);
-  })
+  });
   const onChangeBuyerCheckbox = useCallback(() => {
     setBuyerCheckboxChecked(!buyerCheckboxChecked);
-  })
+  });
+
+  useEffect(() => {
+    dispatch({
+      type: LOAD_CUSTOMER_REQUEST,
+    });
+  }, [createNewCustomerDone, deleteCustomerDone]);
+
   const columns = [{
       name: '거래처코드',
       selector: row => row.id,
@@ -30,7 +37,7 @@ const customer = () => {
       sortable: true,
     }, {
       name: '거래형태',
-      selector: row => row.type,
+      selector: row => row.customerType,
       sortable: true,
     }, {
       name: '최근 거래량',

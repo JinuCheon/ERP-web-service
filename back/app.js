@@ -3,11 +3,14 @@ const cors = require('cors');
 const db = require('./models');
 const app = express();
 
+const customerRouter = require('./routes/customer');
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
 app.use(cors({
-  origin: '*',
-  credentials: false,
+  origin: true,
+  credentials: true,
+  optionsSuccessStatus: 200,
 }));
 
 db.sequelize.sync()
@@ -16,6 +19,8 @@ db.sequelize.sync()
   })
   .catch(console.error);
 
+app.use('/customer', customerRouter);
+
 app.listen(3065, () => {
   console.log('서버설정중');
-})
+});

@@ -3,37 +3,15 @@ import produce from 'immer';
 export const initialState = {
   displayNewCustomerModal: false,
   createNewCustomerLoading: false,
+  createNewCustomerDone: false,
   deleteCustomerLoading: false,
-  customer: [
-    {
-      id: 1,
-      companyName: 'A사',
-      type: '판매',
-      tradingVolume: '123',
-    }, {
-      id: 2,
-      companyName: 'B사',
-      type: '구매',
-      tradingVolume: '123',
-    }, {
-      id: 3,
-      companyName: 'C사',
-      type: '판매',
-      tradingVolume: '123',
-    }, {
-      id: 4,
-      companyName: 'D사',
-      type: '구매',
-      tradingVolume: '123',
-    }, {
-      id: 5,
-      companyName: 'E사',
-      type: '구매',
-      tradingVolume: '123',
-    }
-  ]
+  deleteCustomerDone: false,
+  customer: [],
 }
 
+export const LOAD_CUSTOMER_REQUEST = 'LOAD_CUSTOMER_REQUEST';
+export const LOAD_CUSTOMER_FAILURE = 'LOAD_CUSTOMER_FAILURE';
+export const LOAD_CUSTOMER_SUCCESS = 'LOAD_CUSTOMER_SUCCESS';
 export const SHOW_NEW_CUSTOMER_MODAL = 'SHOW_NEW_CUSTOMER_MODAL';
 export const CLOSE_NEW_CUSTOMER_MODAL = 'CLOSE_NEW_CUSTOMER_MODAL';
 export const CREATE_NEW_CUSTOMER_REQUEST = 'CREATE_NEW_CUSTOMER_REQUEST';
@@ -64,9 +42,22 @@ export const deleteCustomerAction = (data) => ({
 const rootReducer = (state = initialState, action) => {
   return produce(state, (draft) => {
     switch (action.type) {
+      case LOAD_CUSTOMER_REQUEST:
+        draft.loadCustomerLoading = true;
+        break;
+
+      case LOAD_CUSTOMER_FAILURE:
+        draft.loadCustomerLoading = false;
+        break;
+
+      case LOAD_CUSTOMER_SUCCESS:
+        draft.loadCustomerLoading = false;
+        draft.customer = action.data;
+        break;
       
       case CREATE_NEW_CUSTOMER_REQUEST:
         draft.createNewCustomerLoading = true;
+        draft.createNewCustomerDone = false;
         break;
       
       case CREATE_NEW_CUSTOMER_FAILURE:
@@ -75,12 +66,15 @@ const rootReducer = (state = initialState, action) => {
       
       case CREATE_NEW_CUSTOMER_SUCCESS:
         draft.createNewCustomerLoading = false;
+        draft.createNewCustomerDone = true;
+        draft.displayNewCustomerModal = false;
         draft.customer.push(action.data);
         console.log(action);
         break;
 
       case DELETE_CUSTOMER_REQUEST:
         draft.deleteCustomerLoading = true;
+        draft.deleteCustomerDone = false;
         break;
       
       case DELETE_CUSTOMER_FAILURE:
@@ -89,6 +83,7 @@ const rootReducer = (state = initialState, action) => {
       
       case DELETE_CUSTOMER_SUCCESS:
         draft.deleteCustomerLoading = false;
+        draft.deleteCustomerDone = true;
         draft.customer = draft.customer.filter((v) => !action.data.includes(v.id));
         break;
 

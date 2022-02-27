@@ -2,6 +2,7 @@ import { all, delay, put, takeLatest, fork } from "redux-saga/effects";
 import { CREATE_NEW_CUSTOMER_FAILURE, CREATE_NEW_CUSTOMER_REQUEST, CREATE_NEW_CUSTOMER_SUCCESS, DELETE_CUSTOMER_FAILURE, DELETE_CUSTOMER_REQUEST, DELETE_CUSTOMER_SUCCESS } from "../reducers/customer";
 
 function* createNewCustomer(action) {
+  console.log(action);
   try {
     yield delay(1000);
     yield put({

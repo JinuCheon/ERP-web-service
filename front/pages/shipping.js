@@ -67,7 +67,7 @@ const shipping = () => {
         </Col>
       </Row>
       <Button onClick={onClickShipping} variant="primary" type="submit" className="mt-5">
-        Submit
+        출고
       </Button>
     </AppLayout>
   )

@@ -4,14 +4,11 @@ import AppLayout from '../components/AppLayout';
 import DataTable from 'react-data-table-component';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { Button, Col, Form, Modal, Row } from 'react-bootstrap';
-import { deleteProductRequest } from '../reducers/product';
-import NewProductModal from '../components/NewProductModal';
-import { showNewCustomerModal } from '../reducers/customer';
+import { deleteCustomerAction, showNewCustomerModal } from '../reducers/customer';
+import NewCustomerModal from '../components/NewCustomerModal';
 
 const customer = () => {
   const { customer, deleteCustomerLoading, displayNewCustomerModal } = useSelector((state) => state.customer);
-  const [productName, setProductName] = useState();
-  const [productCategory, setCategory] = useState();
   const [selectedRows, setSelectedRows] = useState();
   const [sellerCheckboxChecked, setSellerCheckboxChecked] = useState(true);
   const [buyerCheckboxChecked, setBuyerCheckboxChecked] = useState(true);
@@ -42,24 +39,25 @@ const customer = () => {
     }];
 
   const tableSelectChange = useCallback((data) => {
-    setSelectedRows(data.selectedRows.map((v) => v.code));
+    console.log(data);
+    setSelectedRows(data.selectedRows.map((v) => v.id));
   })
 
-  const makeProductList = useCallback(() => 
+  const makeCustomerList = useCallback(() => 
     customer.map((v) => {
       return { id: v.id, label: `(${v.id}) ${v.companyName}` };
   }));
 
   const onClickFiltering = useCallback(() => {
-    console.log(productName.id, productCategory);
+    //
   })
 
   const onClickNewCustomer = useCallback(() => {
     dispatch(showNewCustomerModal());
   })
   
-  const onClickDeleteProduct = useCallback(() => {
-    dispatch(deleteProductRequest(selectedRows));
+  const onClickDeleteCustomer = useCallback(() => {
+    dispatch(deleteCustomerAction(selectedRows));
   })
   
   return(
@@ -69,8 +67,8 @@ const customer = () => {
           <p>회사명 검색</p>
           <Typeahead
             id="name"
-            onChange={(selected) => setProductName(...selected)}
-            options={makeProductList()}
+            onChange={(selected) => setCustomerName(...selected)}
+            options={makeCustomerList()}
             flip={true}
           />
         </Col>
@@ -92,11 +90,11 @@ const customer = () => {
       </Row>
       <Button className="mt-2 mb-5" onClick={onClickFiltering}>필터링</Button>
       <DataTable columns={columns} data={customer} selectableRows pagination onSelectedRowsChange={tableSelectChange} />
-      <Button className="m-2" onClick={onClickDeleteProduct} disabled={deleteCustomerLoading}>
-        {deleteCustomerLoading ? '삭제중' : '제품 삭제'}
+      <Button className="m-2" onClick={onClickDeleteCustomer} disabled={deleteCustomerLoading}>
+        {deleteCustomerLoading ? '삭제중' : '거래처 삭제'}
       </Button>
       <Button onClick={onClickNewCustomer}>거래처 추가</Button>
-      {displayNewCustomerModal && <NewProductModal />}
+      {displayNewCustomerModal && <NewCustomerModal />}
     </AppLayout>
   )
 }

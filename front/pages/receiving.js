@@ -67,7 +67,7 @@ const receiving = () => {
         </Col>
       </Row>
       <Button onClick={onClickReceiving} variant="primary" type="submit" className="mt-5">
-        Submit
+        입고
       </Button>
     </AppLayout>
   )

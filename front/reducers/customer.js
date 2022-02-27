@@ -43,7 +43,7 @@ export const DELETE_CUSTOMER_REQUEST = 'DELETE_CUSTOMER_REQUEST';
 export const DELETE_CUSTOMER_FAILURE = 'DELETE_CUSTOMER_FAILURE';
 export const DELETE_CUSTOMER_SUCCESS = 'DELETE_CUSTOMER_SUCCESS';
 
-export const createNewCustomerRequest = (data) => ({
+export const createNewCustomerAction = (data) => ({
   type: CREATE_NEW_CUSTOMER_REQUEST,
   data,
 });
@@ -54,6 +54,11 @@ export const showNewCustomerModal = () => ({
 
 export const closeNewCustomerModal = () => ({
   type: CLOSE_NEW_CUSTOMER_MODAL,
+});
+
+export const deleteCustomerAction = (data) => ({
+  type: DELETE_CUSTOMER_REQUEST,
+  data,
 });
 
 const rootReducer = (state = initialState, action) => {
@@ -70,7 +75,8 @@ const rootReducer = (state = initialState, action) => {
       
       case CREATE_NEW_CUSTOMER_SUCCESS:
         draft.createNewCustomerLoading = false;
-        draft.customer = draft.customer.filter((v) => !action.data.include(v.code));
+        draft.customer.push(action.data);
+        console.log(action);
         break;
 
       case DELETE_CUSTOMER_REQUEST:
@@ -83,14 +89,16 @@ const rootReducer = (state = initialState, action) => {
       
       case DELETE_CUSTOMER_SUCCESS:
         draft.deleteCustomerLoading = false;
-        draft.customer = draft.customer.filter((v) => !action.data.includes(v.code));
+        draft.customer = draft.customer.filter((v) => !action.data.includes(v.id));
         break;
 
       case SHOW_NEW_CUSTOMER_MODAL:
         draft.displayNewCustomerModal = true;
+        break;
 
       case CLOSE_NEW_CUSTOMER_MODAL:
         draft.displayNewCustomerModal = false;
+        break;
 
       default:
         break;

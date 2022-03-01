@@ -46,7 +46,6 @@ const customer = () => {
     }];
 
   const tableSelectChange = useCallback((data) => {
-    console.log(data);
     setSelectedRows(data.selectedRows.map((v) => v.id));
   })
 

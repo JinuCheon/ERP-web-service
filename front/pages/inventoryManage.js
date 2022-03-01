@@ -1,21 +1,27 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import AppLayout from '../components/AppLayout';
 import DataTable from 'react-data-table-component';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import { Button, Col, Modal, Row } from 'react-bootstrap';
-import { deleteProductRequest, showNewProductModal } from '../reducers/product';
+import { deleteProductRequest, LOAD_PRODUCT_REQUEST, showNewProductModal } from '../reducers/product';
 import NewProductModal from '../components/NewProductModal';
 
 const inventoryManage = () => {
-  const { productColumns, products, category, displayNewProductModal, deleteProductLoading } = useSelector((state) => state.product);
+  const { productColumns, products, category, displayNewProductModal, createNewProductLoading, deleteProductLoading } = useSelector((state) => state.product);
   const [productName, setProductName] = useState();
   const [productCategory, setCategory] = useState();
   const [selectedRows, setSelectedRows] = useState();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    dispatch({
+      type: LOAD_PRODUCT_REQUEST,
+    });
+  }, [createNewProductLoading, deleteProductLoading]);
+
   const tableSelectChange = useCallback((data) => {
-    setSelectedRows(data.selectedRows.map((v) => v.code));
+    setSelectedRows(data.selectedRows.map((v) => v.id));
   })
 
   const makeProductList = useCallback(() => 
@@ -24,7 +30,7 @@ const inventoryManage = () => {
   }));
 
   const onClickFiltering = useCallback(() => {
-    console.log(productName.id, productCategory);
+    //
   })
 
   const onClickNewProduct = useCallback(() => {

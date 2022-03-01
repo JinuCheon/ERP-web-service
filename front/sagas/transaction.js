@@ -2,7 +2,6 @@ import { all, delay, put, takeLatest, fork } from "redux-saga/effects";
 import { NEW_TRANSACTION_FAILURE, NEW_TRANSACTION_REQUEST, NEW_TRANSACTION_SUCCESS } from "../reducers/transaction";
 
 function* newTranaction(action) {
-  console.log("@@@@@@@@@@@@@@@@@@@@@");
   try {
     yield put({
       type: NEW_TRANSACTION_SUCCESS,

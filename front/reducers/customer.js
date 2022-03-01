@@ -69,7 +69,6 @@ const rootReducer = (state = initialState, action) => {
         draft.createNewCustomerDone = true;
         draft.displayNewCustomerModal = false;
         draft.customer.push(action.data);
-        console.log(action);
         break;
 
       case DELETE_CUSTOMER_REQUEST:

@@ -8,6 +8,8 @@ module.exports = (sequelize, DataTypes) => {
     charset: 'utf8',
     collate: 'utf8_general_ci',
   });
-  ProductList.associate = (db) => {};
+  ProductList.associate = (db) => {
+    db.ProductList.belongsTo(db.Product, { through: 'ProductMapping'});
+  };
   return ProductList;
 }

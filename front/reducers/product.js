@@ -2,11 +2,12 @@ import produce from 'immer';
 
 export const initialState = {
   displayNewProductModal: false,
+  loadProductLoading: false,
   createNewProductLoading: false,
   deleteProductLoading: false,
   productColumns: [{
     name: '제품코드',
-    selector: row => row.code,
+    selector: row => row.id,
     sortable: true,
   }, {
     name: '제품명',
@@ -14,7 +15,7 @@ export const initialState = {
     sortable: true,
   }, {
     name: '카테고리',
-    selector: row => row.category,
+    selector: row => row.Category.name,
     sortable: true,
   }, {
     name: '가격',
@@ -25,46 +26,26 @@ export const initialState = {
     selector: row => row.stock,
     sortable: true,
   }],
-  products: [{
-    code: '0001',
-    name: '청바지',
-    category: '바지',
-    price: 1000,
-    stock: 52,
-  }, {
-    code: '0002',
-    name: '슬렉스',
-    category: '바지',
-    price: 1500,
-    stock: 142,
-  }, {
-    code: '0003',
-    name: '흰색무지티',
-    category: '상의',
-    price: 5000,
-    stock: 12,
-  }, {
-    code: '0004',
-    name: '핑크무지티',
-    category: '상의',
-    price: 2000,
-    stock: 142,
-  }, {
-    code: '0005',
-    name: '독일군 스니커즈',
-    category: '신발',
-    price: 66000,
-    stock: 12,
-  }],
+  products: [],
   category: [
-    '바지',
-    '상의',
-    '신발',
+    {
+      id: 100,
+      name: '바지',
+    }, {
+      id: 101,
+      name: '상의',
+    }, {
+      id: 102,
+      name: '신발',
+    },
   ],
 }
 
 export const SHOW_NEW_PRODUCT_MODAL = 'SHOW_NEW_PRODUCT_MODAL';
 export const CLOSE_NEW_PRODUCT_MODAL = 'CLOSE_NEW_PRODUCT_MODAL';
+export const LOAD_PRODUCT_REQUEST = 'LOAD_PRODUCT_REQUEST';
+export const LOAD_PRODUCT_FAILURE = 'LOAD_PRODUCT_FAILURE';
+export const LOAD_PRODUCT_SUCCESS = 'LOAD_PRODUCT_SUCCESS';
 export const CREATE_NEW_PRODUCT_REQUEST = 'CREATE_NEW_PRODUCT_REQUEST';
 export const CREATE_NEW_PRODUCT_FAILURE = 'CREATE_NEW_PRODUCT_FAILURE';
 export const CREATE_NEW_PRODUCT_SUCCESS = 'CREATE_NEW_PRODUCT_SUCCESS';
@@ -100,6 +81,19 @@ const rootReducer = (state = initialState, action) => {
         draft.displayNewProductModal = false;
         break;
       
+      case LOAD_PRODUCT_REQUEST:
+        draft.loadProductLoading = true;
+        break;
+      
+      case LOAD_PRODUCT_FAILURE:
+        draft.loadProductLoading = false;
+        break;
+      
+      case LOAD_PRODUCT_SUCCESS:
+        draft.loadProductLoading = false;
+        draft.products = action.data;
+        break;
+
       case CREATE_NEW_PRODUCT_REQUEST:
         draft.createNewProductLoading = true;
         break;
@@ -110,7 +104,6 @@ const rootReducer = (state = initialState, action) => {
       
       case CREATE_NEW_PRODUCT_SUCCESS:
         draft.createNewProductLoading = false;
-        draft.products.push(action.data);
         draft.displayNewProductModal = false;
         break;
 
@@ -124,7 +117,6 @@ const rootReducer = (state = initialState, action) => {
       
       case DELETE_PRODUCT_SUCCESS:
         draft.deleteProductLoading = false;
-        draft.products = draft.products.filter((v) => !action.data.includes(v.code));
         break;
 
       default:

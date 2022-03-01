@@ -21,7 +21,6 @@ function* loadCustomer(action) {
 }
 
 function createNewCustomerAPI(data) {
-  console.log(data);
   return axios.post('/customer', data);
 }
 function* createNewCustomer(action) {

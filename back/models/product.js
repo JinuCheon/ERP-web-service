@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
   });
   Product.associate = (db) => {
     db.Product.belongsTo(db.Category);
-    db.Product.belongsTo(db.ProductList);
+    db.Product.belongsToMany(db.ProductList, { through: 'ProductMapping'});
   };
   return Product;
 }

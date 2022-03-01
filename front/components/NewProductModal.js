@@ -8,22 +8,41 @@ import useInput from "../hooks/useInput";
 const NewProductModal = () => {
   const dispatch = useDispatch();
   const { category, createNewProductLoading } = useSelector((state) => state.product);
-  const [productCode, onChangeProductCode] = useInput();
+  const [productCode, onChangeProductCode, setProductCode] = useInput();
   const [productName, onChangeProductName] = useInput();
-  const [productCategory, setCategory] = useState();
+  const [productCategory, setProductCategory] = useState();
   const [productPrice, onChangeProductPrice] = useInput();
+  const [autoCode, setAutoCode] = useState(false);
   
   const onClickNewProductClose = useCallback(() => {
     dispatch(closeNewProductModal());
   })
   const onClickCreateNewProduct = useCallback(() => {
-    dispatch(createNewProductRequest({
-      code: productCode,
-      name: productName,
-      category: productCategory,
-      price: productPrice,
-      stock: 0,
-    }));
+    if (productCode === null){
+      dispatch(createNewProductRequest({
+        name: productName,
+        categoryId: parseInt(productCategory.id),
+        price: productPrice,
+        stock: 0,
+      }));
+    } else {
+      dispatch(createNewProductRequest({
+        id: parseInt(productCode),
+        name: productName,
+        categoryId: parseInt(productCategory.id),
+        price: productPrice,
+        stock: 0,
+      }));
+    }
+  })
+
+  const makeCategoryList = useCallback(() => category.map((v) => {
+      return { id: v.id, label: `(${v.id}) ${v.name}`}
+  }));
+
+  const onChangeAutoCodeCheck = useCallback(() => {
+    setAutoCode(!autoCode);
+    setProductCode(null);
   })
 
   return (
@@ -34,16 +53,16 @@ const NewProductModal = () => {
         <Modal.Body>
         <Form.Label className="mt-3">제품코드 (체크시 자동생성)</Form.Label>
         <InputGroup>
-          <InputGroup.Checkbox/>
-          <Form.Control type="text" onChange={onChangeProductCode} />
+          <InputGroup.Checkbox checked={autoCode} onChange={onChangeAutoCodeCheck}/>
+          <Form.Control type="text" onChange={onChangeProductCode} disabled={autoCode} />
         </InputGroup>
         <Form.Label className="mt-3">제품명</Form.Label>
         <Form.Control type="text" onChange={onChangeProductName} />
         <Form.Label className="mt-3">카테고리</Form.Label>
         <Typeahead
             id="category"
-            onChange={(selected) => setCategory(...selected)}
-            options={category}
+            onChange={(selected) =>setProductCategory(...selected)}
+            options={makeCategoryList()}
           />
         <Form.Label className="mt-3">가격</Form.Label>
         <Form.Control onChange={onChangeProductPrice} type="number" />

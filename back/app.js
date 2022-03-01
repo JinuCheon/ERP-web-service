@@ -5,6 +5,7 @@ const app = express();
 
 const customerRouter = require('./routes/customer');
 const productRouter = require('./routes/product');
+const transactionRouter = require('./routes/transaction');
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true}));
@@ -22,6 +23,7 @@ db.sequelize.sync()
 
 app.use('/customer', customerRouter);
 app.use('/product', productRouter);
+app.use('/transaction', transactionRouter);
 
 app.listen(3065, () => {
   console.log('서버설정중');

@@ -1,27 +1,11 @@
 module.exports = (sequelize, DataTypes) => {
   const Transaction = sequelize.define('Transaction', {
     type : {
-      type: DataTypes.BOOLEAN,
+      type: DataTypes.STRING(10),
       allowNull: false,
     },
-    name : {
-      type: DataTypes.STRING(30),
-      allowNull: false,
-    },
-    date : {
+    transaction_date : {
       type: DataTypes.DATE,
-      allowNull: false,
-    },
-    proudct_id : {
-      type: DataTypes.STRING(30),
-      allowNull: false,
-    },
-    product_category : {
-      type: DataTypes.STRING(30),
-      allowNull: false,
-    },
-    vender_name : {
-      type: DataTypes.STRING(30),
       allowNull: false,
     },
     transaction_stock : {
@@ -32,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
     charset: 'utf8',
     collate: 'utf8_general_ci',
   });
-  Transaction.associate = (db) => {};
+  Transaction.associate = (db) => {
+    db.Transaction.belongsTo(db.Customer, { through: 'transactionCustomerMapping'});
+    db.Transaction.belongsTo(db.Product, { through: 'transactionProductMapping'});
+  };
   return Transaction;
 }

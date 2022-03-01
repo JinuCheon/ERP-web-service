@@ -12,6 +12,8 @@ module.exports = (sequelize, DataTypes) => {
     charset: 'utf8',
     collate: 'utf8_general_ci',
   });
-  Customer.associate = (db) => {};
+  Customer.associate = (db) => {
+    db.Customer.belongsToMany(db.Transaction, { through: 'transactionCustomerMapping'})
+  };
   return Customer;
 }

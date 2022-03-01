@@ -5,6 +5,7 @@ import AppLayout from '../components/AppLayout';
 import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../hooks/useInput';
 import { newTranactionRequest } from '../reducers/transaction';
+import Datetime from 'react-datetime';
 
 
 const shipping = () => {
@@ -16,10 +17,15 @@ const shipping = () => {
   const { customer } = useSelector((state) => state.customer);
   const dispatch = useDispatch();
 
-  const onClickShipping = useCallback(() => {
-    const productId = productInfo.id;
-    dispatch(newTranactionRequest({ type: '출고', productId, productCategory, customerName, productStock }));
-  })
+  const onClickReceiving = useCallback(() => {
+    dispatch(newTranactionRequest({
+      type: '입고',
+      productId: productInfo.id,
+      customerId: customerInfo.id,
+      transactionStock: productStock,
+      transactionDate: datetime,
+    }));
+  });
 
   const makeProductList = useCallback(() =>
       products.map((v) => {
@@ -44,12 +50,8 @@ const shipping = () => {
           />
         </Col>
         <Col>
-          <p>카테고리</p>
-          <Typeahead
-            id="category"
-            onChange={(selected) => setCategory(...selected)}
-            options={category}
-          />
+          <p>출고일자</p>
+          <Datetime />
         </Col>
       </Row>
       <Row>

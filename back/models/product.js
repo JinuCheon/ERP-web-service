@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
   Product.associate = (db) => {
     db.Product.belongsTo(db.Category);
     db.Product.belongsToMany(db.ProductList, { through: 'ProductMapping'});
+    db.Product.belongsToMany(db.Transaction, { through: 'transactionProductMapping'});
   };
   return Product;
 }

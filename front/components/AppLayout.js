@@ -9,7 +9,7 @@ const AppLayout = ({ children }) => {
           <Link href="/"><Navbar.Brand>Jinu ERP</Navbar.Brand></Link>
           <Nav className="me-auto">
             <Link href="/" passHref>
-              <Nav.Link>통계</Nav.Link>
+              <Nav.Link>메인페이지</Nav.Link>
             </Link>
             <Link href="/inventoryManage" passHref>
               <Nav.Link>재고관리</Nav.Link>
@@ -28,8 +28,6 @@ const AppLayout = ({ children }) => {
             </Link>
           </Nav>
           <Nav>
-            <Navbar.Text>@@@님</Navbar.Text>
-            <Navbar.Text>로그아웃</Navbar.Text>
           </Nav>
         </Container>
       </Navbar>

@@ -66,7 +66,7 @@ const receiving = () => {
         </Col>
         <Col>
           <p>입고일자</p>
-          <Datetime initialValue={new Date()} value={datetime} onChange={onChangeDate} />
+          <Datetime onChange={onChangeDate} />
         </Col>
       </Row>
       <Row>

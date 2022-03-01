@@ -15,7 +15,7 @@ const receiving = () => {
   const [datetime, setDatetime] = useState(new Date());
   const [customerInfo, setCustomerInfo] = useState();
   const [ productStock, onChangeProductStock ] = useInput();
-  const { products, category } = useSelector((state) => state.product);
+  const { products } = useSelector((state) => state.product);
   const { customer } = useSelector((state) => state.customer);
   const dispatch = useDispatch();
 

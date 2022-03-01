@@ -23,37 +23,7 @@ export const initialState = {
     selector: row => row.productStock,
     sortable: true,
   }],
-  transactionData: [{
-    type: '출고',
-    productId: '0001',
-    productCategory: '바지',
-    customerName: '야놀자',
-    productStock: 3,
-  },{
-    type: '입고',
-    productId: '0005',
-    productCategory: '신발',
-    customerName: '배달의민족',
-    productStock: 3,
-  },{
-    type: '출고',
-    productId: '0003',
-    productCategory: '상의',
-    customerName: '토스',
-    productStock: 3,
-  },{
-    type: '입고',
-    productId: '0002',
-    productCategory: '상의',
-    customerName: '네이버',
-    productStock: 3,
-  },{
-    type: '입고',
-    productId: '0006',
-    productCategory: '바지',
-    customerName: '카카오',
-    productStock: 3,
-  }],
+  transactionData: [],
 }
 
 export const NEW_TRANSACTION_REQUEST = 'NEW_TRANSACTION_REQUEST';
@@ -78,7 +48,6 @@ const rootReducer = (state = initialState, action) => {
 
       case NEW_TRANSACTION_SUCCESS:
         draft.transactionLoading = false;
-        draft.transactionData.push(action.data);
         break;
 
       default:

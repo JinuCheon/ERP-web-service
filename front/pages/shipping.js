@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { Button, Col, Container, Form, Row } from 'react-bootstrap';
 import { Typeahead } from 'react-bootstrap-typeahead';
 import AppLayout from '../components/AppLayout';
@@ -6,20 +6,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import useInput from '../hooks/useInput';
 import { newTranactionRequest } from '../reducers/transaction';
 import Datetime from 'react-datetime';
+import { LOAD_PRODUCT_REQUEST } from '../reducers/product';
+import { LOAD_CUSTOMER_REQUEST } from '../reducers/customer';
 
 
 const shipping = () => {
   const [productInfo, setProductInfo] = useState();
-  const [productCategory, setCategory] = useState();
-  const [customerName, setCustomerName] = useState();
+  const [datetime, setDatetime] = useState(new Date());
+  const [customerInfo, setCustomerInfo] = useState();
   const [ productStock, onChangeProductStock ] = useInput();
-  const { products, category } = useSelector((state) => state.product);
+  const { products } = useSelector((state) => state.product);
   const { customer } = useSelector((state) => state.customer);
   const dispatch = useDispatch();
 
-  const onClickReceiving = useCallback(() => {
+  useEffect(() => {
+    dispatch({
+      type: LOAD_PRODUCT_REQUEST,
+    });
+    dispatch({
+      type: LOAD_CUSTOMER_REQUEST,
+    });
+  }, []);
+
+  const onClickShipping = useCallback(() => {
     dispatch(newTranactionRequest({
-      type: '입고',
+      type: '출고',
       productId: productInfo.id,
       customerId: customerInfo.id,
       transactionStock: productStock,
@@ -28,8 +39,8 @@ const shipping = () => {
   });
 
   const makeProductList = useCallback(() =>
-      products.map((v) => {
-        return { id: v.code, label: `(${v.code}) ${v.name}` };
+    products.map((v) => {
+      return { id: v.id, label: `(${v.id}) ${v.name}` };
     }));
 
   const makeCustomerList = useCallback(() =>
@@ -58,8 +69,8 @@ const shipping = () => {
         <Col>
           <p>거래처(매출처)</p>
           <Typeahead
-            id="vender"
-            onChange={(selected) => setCustomerName(selected[0].label)}
+            id="customer"
+            onChange={(selected) => setCustomerInfo(...selected)}
             options={makeCustomerList()}
           />
         </Col>

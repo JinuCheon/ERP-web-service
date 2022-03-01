@@ -1,9 +1,26 @@
 import { all, call, put, takeLatest, fork } from "redux-saga/effects";
-import { NEW_TRANSACTION_FAILURE, NEW_TRANSACTION_REQUEST, NEW_TRANSACTION_SUCCESS } from "../reducers/transaction";
+import { LOAD_TRANSACTION_RECORD_FAILURE, LOAD_TRANSACTION_RECORD_REQUEST, LOAD_TRANSACTION_RECORD_SUCCESS, NEW_TRANSACTION_FAILURE, NEW_TRANSACTION_REQUEST, NEW_TRANSACTION_SUCCESS } from "../reducers/transaction";
 import axios from 'axios';
 
+function loadTranactionRecordAPI() {
+  return axios.get('/transaction');
+}
+function* loadTranactionRecord(action) {
+  try {
+    const result = yield call(loadTranactionRecordAPI, action.data);
+    yield put({
+      type: LOAD_TRANSACTION_RECORD_SUCCESS,
+      data: result.data,
+    });
+  } catch (err) {
+    yield put({
+      type: LOAD_TRANSACTION_RECORD_FAILURE,
+      data: err.response.data,
+    })
+  }
+}
+
 function newTranactionAPI(data) {
-  console.log(data);
   if (data.type === '입고') {
     return axios.post('/transaction/receiving', data);
   } else {
@@ -15,7 +32,6 @@ function* newTranaction(action) {
     const result = yield call(newTranactionAPI, action.data);
     yield put({
       type: NEW_TRANSACTION_SUCCESS,
-      data: action.data,
     });
   } catch (err) {
     yield put({
@@ -25,6 +41,9 @@ function* newTranaction(action) {
   }
 }
 
+function* watchloadTransactionRedord() {
+  yield takeLatest(LOAD_TRANSACTION_RECORD_REQUEST, loadTranactionRecord);
+}
 function* watchNewTranaction() {
   yield takeLatest(NEW_TRANSACTION_REQUEST, newTranaction);
 }
@@ -32,5 +51,6 @@ function* watchNewTranaction() {
 export default function* transactionSaga() {
   yield all([
     fork(watchNewTranaction),
+    fork(watchloadTransactionRedord),
   ])
 }

@@ -1,5 +1,5 @@
 const express = require('express');
-const { Product, Category, Transaction } = require('../models');
+const { Product, Customer, Transaction } = require('../models');
 
 const router = express.Router();
 
@@ -36,7 +36,7 @@ router.post('/shipping', async (req, res, next) => {
     if (findStockResult[0].dataValues.stock > req.body.transactionStock) {
       await Transaction.create({
         type: req.body.type,
-        productId: req.body.productId,
+        ProductId: req.body.productId,
         price: req.body.price,
         CustomerId: req.body.customerId,
         transaction_date: req.body.transactionDate,
@@ -58,7 +58,15 @@ router.post('/shipping', async (req, res, next) => {
 
 router.get('/', async (req, res, next) => {
   try {
-    const customers = await Transaction.findAll();
+    const customers = await Transaction.findAll({
+      include: [{
+        model: Product,
+        attributes: ['name'],
+      }, {
+        model: Customer,
+        attributes: ['companyName'],
+      }]
+    });
     res.status(201).json(customers);
   } catch (error) {
     console.error(error);

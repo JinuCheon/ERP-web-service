@@ -45,7 +45,6 @@ router.get('/', async (req, res, next) => {
 
 router.delete('/', async (req, res, next) => {
   try {
-    console.log(req.body);
     await Product.destroy({
       where: {
         id: req.body.productId,
